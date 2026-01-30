@@ -43,7 +43,7 @@ export const Login = () => {
           <div className="p-6 md:p-8">
             <div className="flex items-center gap-2 mb-6">
               <GraduationCap className="size-8 text-indigo-600" />
-              <h1>EduTrack LMS</h1>
+              <h1>Vidyastara Tuitions</h1>
             </div>
             
             <h2 className="mb-6">Login to Your Account</h2>

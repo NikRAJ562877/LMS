@@ -1,4 +1,4 @@
-# EduTrack LMS - Learning Management System
+# Vidyastara Tuitions - Learning Management System
 
 A comprehensive Learning Management System built with React and TypeScript, featuring role-based dashboards for Students, Parents, and Teachers, with a modern animated landing page.
 

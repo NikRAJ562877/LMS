@@ -36,7 +36,7 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
               <GraduationCap className="size-8 text-indigo-600" />
-              <span className="text-xl">EduTrack LMS</span>
+              <span className="text-xl">Vidyastara Tuitions</span>
             </div>
 
             {/* Desktop Menu */}
@@ -431,10 +431,10 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <GraduationCap className="size-8 text-indigo-400" />
-            <span className="text-xl">EduTrack LMS</span>
+            <span className="text-xl">Vidyastara Tuitions</span>
           </div>
           <p className="text-gray-400 mb-4">Empowering education through technology</p>
-          <p className="text-gray-500 text-sm">© 2026 EduTrack LMS. All rights reserved.</p>
+          <p className="text-gray-500 text-sm">© 2026 Vidyastara Tuitions. All rights reserved.</p>
         </div>
       </footer>
     </div>
