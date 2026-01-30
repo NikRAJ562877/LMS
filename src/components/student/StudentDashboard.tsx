@@ -4,6 +4,7 @@ import { useData } from '../../context/DataContext';
 import { Student } from '../../types';
 import { mockSubjects } from '../../data/mockData';
 import { BookOpen, FileText, Calendar, TrendingUp, Mail, Eye } from 'lucide-react';
+import { useIsMobile } from '../ui/use-mobile';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { AssignmentFileViewer } from '../AssignmentFileViewer';
 
@@ -12,6 +13,7 @@ export const StudentDashboard = () => {
   const { marks, assignments, attendance, messages } = useData();
   const student = user as Student;
   const [expandedAssignment, setExpandedAssignment] = useState<string | null>(null);
+  const isMobile = useIsMobile();
 
   // Get student's subjects
   const studentSubjects = mockSubjects.filter(
@@ -96,9 +98,9 @@ export const StudentDashboard = () => {
   ];
 
   return (
-    <div className="p-6 space-y-6">
-      {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg p-6">
+    <div className="p-4 md:p-6 space-y-6">
+  {/* Welcome Section */}
+  <div id="welcome" className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg p-6">
         <h2>Welcome back, {student.name}!</h2>
         <p className="text-indigo-100">Class {student.classLevel}</p>
         <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -121,13 +123,13 @@ export const StudentDashboard = () => {
         </div>
       </div>
 
-      {/* Subject-wise Marks */}
-      <div className="bg-white rounded-lg shadow p-6">
+  {/* Subject-wise Marks */}
+  <div id="subject-performance" className="bg-white rounded-lg shadow p-6">
         <div className="flex items-center gap-2 mb-4">
           <BookOpen className="size-5 text-indigo-600" />
           <h3>Subject-wise Performance</h3>
         </div>
-        <ResponsiveContainer width="100%" height={300}>
+  <ResponsiveContainer width="100%" height={isMobile ? 200 : 300}>
           <BarChart data={subjectPerformance}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="subject" />
@@ -138,14 +140,14 @@ export const StudentDashboard = () => {
         </ResponsiveContainer>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Assignments */}
-        <div className="bg-white rounded-lg shadow p-6">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  {/* Assignments */}
+  <div id="assignments" className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center gap-2 mb-4">
             <FileText className="size-5 text-indigo-600" />
             <h3>Assignments Overview</h3>
           </div>
-          <ResponsiveContainer width="100%" height={250}>
+          <ResponsiveContainer width="100%" height={isMobile ? 180 : 250}>
             <PieChart>
               <Pie
                 data={assignmentStatusData}
@@ -192,8 +194,8 @@ export const StudentDashboard = () => {
           </div>
         </div>
 
-        {/* Attendance Summary */}
-        <div className="bg-white rounded-lg shadow p-6">
+  {/* Attendance Summary */}
+  <div id="attendance" className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center gap-2 mb-4">
             <Calendar className="size-5 text-indigo-600" />
             <h3>Attendance Summary</h3>
@@ -230,7 +232,7 @@ export const StudentDashboard = () => {
                   .map((att, index) => (
                     <div
                       key={index}
-                      className={`w-6 h-6 rounded ${
+                      className={`w-4 h-4 sm:w-6 sm:h-6 rounded ${
                         att.status === 'present' ? 'bg-green-500' : 'bg-red-500'
                       }`}
                       title={`${att.date}: ${att.status}`}
@@ -244,7 +246,7 @@ export const StudentDashboard = () => {
 
       {/* Recent Messages */}
       {studentMessages.length > 0 && (
-        <div className="bg-white rounded-lg shadow p-6">
+        <div id="messages" className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center gap-2 mb-4">
             <Mail className="size-5 text-indigo-600" />
             <h3>Recent Messages</h3>

@@ -7,6 +7,7 @@ import { StudentDashboard } from './components/student/StudentDashboard';
 import { ParentDashboard } from './components/parent/ParentDashboard';
 import { TeacherDashboard } from './components/teacher/TeacherDashboard';
 import { LandingPage } from './components/landing/LandingPage';
+import { BottomNav } from './components/ui/bottom-nav';
 
 const AppContent = () => {
   const { user } = useAuth();
@@ -28,6 +29,7 @@ const AppContent = () => {
         {user.role === 'parent' && <ParentDashboard />}
         {user.role === 'teacher' && <TeacherDashboard />}
       </main>
+      <BottomNav />
     </div>
   );
 };

@@ -19,7 +19,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 px-6 py-4">
+    <header className="bg-white border-b border-gray-200 px-4 md:px-6 py-3 md:py-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <GraduationCap className="size-8 text-indigo-600" />
@@ -30,7 +30,8 @@ export const Header = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-3">
+          {/* Show full user info on md+ screens */}
+          <div className="hidden md:flex items-center gap-3">
             <div className="text-right">
               <div className="flex items-center gap-2">
                 <User className="size-4 text-gray-600" />
@@ -40,19 +41,42 @@ export const Header = () => {
                 <span
                   className={`text-xs px-2 py-0.5 rounded-full ${getRoleBadgeColor()}`}
                 >
-                  {user?.role.charAt(0).toUpperCase() + user?.role.slice(1)}
+                  {user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : ''}
                 </span>
               </div>
             </div>
           </div>
 
-          <button
-            onClick={logout}
-            className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
-          >
-            <LogOut className="size-4" />
-            <span>Logout</span>
-          </button>
+          {/* Compact user icon on small screens */}
+          <div className="md:hidden flex items-center">
+            <button
+              className="p-2 rounded-md bg-gray-100 text-gray-700"
+              title={user?.name}
+              aria-label="User"
+            >
+              <User className="size-4" />
+            </button>
+          </div>
+
+          {/* Logout: full button on md+, icon-only on small */}
+          <div>
+            <button
+              onClick={logout}
+              className="hidden md:inline-flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+            >
+              <LogOut className="size-4" />
+              <span>Logout</span>
+            </button>
+
+            <button
+              onClick={logout}
+              className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100"
+              aria-label="Logout"
+              title="Logout"
+            >
+              <LogOut className="size-4" />
+            </button>
+          </div>
         </div>
       </div>
     </header>

@@ -40,7 +40,7 @@ export const Login = () => {
       <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl overflow-hidden">
         <div className="grid md:grid-cols-2 gap-0">
           {/* Left Side - Login Form */}
-          <div className="p-8">
+          <div className="p-6 md:p-8">
             <div className="flex items-center gap-2 mb-6">
               <GraduationCap className="size-8 text-indigo-600" />
               <h1>EduTrack LMS</h1>
@@ -94,7 +94,7 @@ export const Login = () => {
           </div>
 
           {/* Right Side - Sample Credentials */}
-          <div className="bg-indigo-600 text-white p-8">
+          <div className="bg-indigo-600 text-white p-6 md:p-8">
             <h3 className="mb-4">Quick Login</h3>
             <p className="text-indigo-100 text-sm mb-6">
               Click any credential below to auto-fill and login

@@ -104,7 +104,7 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
                 🎓 Modern Learning Management System
               </motion.div>
               
-              <h1 className="text-5xl md:text-6xl mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-3xl sm:text-4xl md:text-6xl mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                 Empowering Education Through Technology
               </h1>
               
@@ -117,7 +117,7 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={onGetStarted}
-                  className="px-8 py-4 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors flex items-center gap-2 shadow-lg shadow-indigo-200"
+                  className="px-6 py-3 sm:px-8 sm:py-4 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors flex items-center gap-2 shadow-lg shadow-indigo-200"
                 >
                   Get Started
                   <ArrowRight className="size-5" />
@@ -126,7 +126,7 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 bg-white text-indigo-600 rounded-full border-2 border-indigo-600 hover:bg-indigo-50 transition-colors"
+                  className="px-6 py-3 sm:px-8 sm:py-4 bg-white text-indigo-600 rounded-full border-2 border-indigo-600 hover:bg-indigo-50 transition-colors"
                 >
                   Watch Demo
                 </motion.button>
