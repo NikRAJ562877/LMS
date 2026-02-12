@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import {
   GraduationCap,
@@ -18,13 +19,18 @@ import {
   ChevronDown
 } from 'lucide-react';
 
-interface LandingPageProps {
-  onGetStarted: () => void;
-}
-
-export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
+export const LandingPage = () => {
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isClassroomDropdownOpen, setIsClassroomDropdownOpen] = useState(false);
+
+  const handleLogin = () => {
+    navigate('/login');
+  };
+
+  const handleEnroll = () => {
+    navigate('/enroll');
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -50,7 +56,7 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
                   onClick={() => setIsClassroomDropdownOpen(!isClassroomDropdownOpen)}
                   className="flex items-center gap-1 text-gray-700 hover:text-indigo-600 transition-colors"
                 >
-                  Classroom services
+                  Classroom Courses
                   <ChevronDown className={`size-4 transition-transform ${isClassroomDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
@@ -65,29 +71,33 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
                     {[
                       'JEE',
                       'NEET',
+                      'CET',
                       'Class 1-4',
                       'Class 5-6',
                       'Class 7-8',
                       'Class 9-10'
                     ].map((item) => (
-                      <a
+                      <button
                         key={item}
-                        href="#"
-                        onClick={() => setIsClassroomDropdownOpen(false)}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
+                        onClick={() => {
+                          setIsClassroomDropdownOpen(false);
+                          navigate('/enroll');
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
                       >
                         {item}
-                      </a>
+                      </button>
                     ))}
                   </motion.div>
                 )}
               </div>
+
               <a href="#features" className="text-gray-700 hover:text-indigo-600 transition-colors">Features</a>
               <a href="#about" className="text-gray-700 hover:text-indigo-600 transition-colors">About</a>
               <a href="#testimonials" className="text-gray-700 hover:text-indigo-600 transition-colors">Testimonials</a>
               <a href="#contact" className="text-gray-700 hover:text-indigo-600 transition-colors">Contact</a>
               <button
-                onClick={onGetStarted}
+                onClick={handleLogin}
                 className="px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors"
               >
                 Login
@@ -117,7 +127,7 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
               <a href="#testimonials" className="block text-gray-700 hover:text-indigo-600">Testimonials</a>
               <a href="#contact" className="block text-gray-700 hover:text-indigo-600">Contact</a>
               <button
-                onClick={onGetStarted}
+                onClick={handleLogin}
                 className="w-full px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
               >
                 Login
@@ -157,10 +167,10 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={onGetStarted}
+                  onClick={handleEnroll}
                   className="px-6 py-3 sm:px-8 sm:py-4 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors flex items-center gap-2 shadow-lg shadow-indigo-200"
                 >
-                  Get Started
+                  Enroll Now
                   <ArrowRight className="size-5" />
                 </motion.button>
 
@@ -409,7 +419,7 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={onGetStarted}
+                onClick={handleEnroll}
                 className="px-8 py-4 bg-white text-indigo-600 rounded-full hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
               >
                 Start Your Journey

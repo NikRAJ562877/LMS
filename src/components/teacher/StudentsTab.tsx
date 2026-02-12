@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { useData } from '../../context/DataContext';
-import { mockStudents, mockSubjects } from '../../data/mockData';
 import { Users, Search, TrendingUp, Calendar } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export const StudentsTab = () => {
-  const { marks, attendance } = useData();
+  const { marks, attendance, students, subjects } = useData();
   const [selectedClass, setSelectedClass] = useState<number>(10);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
 
   const classLevels = Array.from(
-    new Set(mockStudents.map((s) => s.classLevel))
+    new Set(students.map((s) => s.classLevel))
   ).sort((a, b) => a - b);
 
+
   // Filter students
-  const filteredStudents = mockStudents
+  const filteredStudents = students
     .filter((s) => s.classLevel === selectedClass)
     .filter((s) =>
       s.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -23,13 +23,13 @@ export const StudentsTab = () => {
 
   // Get student details
   const getStudentDetails = (studentId: string) => {
-    const student = mockStudents.find((s) => s.id === studentId);
+    const student = students.find((s) => s.id === studentId);
     if (!student) return null;
 
     const studentMarks = marks.filter((m) => m.studentId === studentId);
     const studentAttendance = attendance.filter((a) => a.studentId === studentId);
 
-    const subjects = mockSubjects.filter(
+    const studentSubjects = subjects.filter(
       (sub) => sub.classLevel === student.classLevel
     );
 
@@ -39,7 +39,7 @@ export const StudentsTab = () => {
       const avg =
         subjectMarks.length > 0
           ? subjectMarks.reduce((acc, m) => acc + (m.marks / m.maxMarks) * 100, 0) /
-            subjectMarks.length
+          subjectMarks.length
           : 0;
       return {
         subject: subject.name,
@@ -59,9 +59,9 @@ export const StudentsTab = () => {
     const overallPercentage =
       subjectPerformance.length > 0
         ? Math.round(
-            subjectPerformance.reduce((acc, s) => acc + s.percentage, 0) /
-              subjectPerformance.length
-          )
+          subjectPerformance.reduce((acc, s) => acc + s.percentage, 0) /
+          subjectPerformance.length
+        )
         : 0;
 
     return {
@@ -134,11 +134,10 @@ export const StudentsTab = () => {
                 <div
                   key={student.id}
                   onClick={() => setSelectedStudent(student.id)}
-                  className={`p-4 cursor-pointer transition-colors ${
-                    selectedStudent === student.id
-                      ? 'bg-purple-50 border-l-4 border-purple-600'
-                      : 'hover:bg-gray-50'
-                  }`}
+                  className={`p-4 cursor-pointer transition-colors ${selectedStudent === student.id
+                    ? 'bg-purple-50 border-l-4 border-purple-600'
+                    : 'hover:bg-gray-50'
+                    }`}
                 >
                   <div className="flex items-center justify-between">
                     <div>
@@ -231,13 +230,12 @@ export const StudentsTab = () => {
                         >
                           <span className="text-sm">{perf.subject}</span>
                           <span
-                            className={`text-sm px-3 py-1 rounded-full ${
-                              perf.percentage >= 80
-                                ? 'bg-green-100 text-green-800'
-                                : perf.percentage >= 60
+                            className={`text-sm px-3 py-1 rounded-full ${perf.percentage >= 80
+                              ? 'bg-green-100 text-green-800'
+                              : perf.percentage >= 60
                                 ? 'bg-yellow-100 text-yellow-800'
                                 : 'bg-red-100 text-red-800'
-                            }`}
+                              }`}
                           >
                             {perf.percentage}%
                           </span>

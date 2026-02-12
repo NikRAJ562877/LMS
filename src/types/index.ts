@@ -1,5 +1,5 @@
 // User types
-export type UserRole = 'student' | 'parent' | 'teacher';
+export type UserRole = 'student' | 'parent' | 'teacher' | 'admin';
 
 export interface User {
   id: string;
@@ -12,7 +12,12 @@ export interface User {
 export interface Student extends User {
   role: 'student';
   classLevel: number; // 1-12
+  batch: string; // e.g., 'A', 'B', 'JEE-1'
   parentIds: string[];
+  category: 'normal' | 'slow_learner';
+  registerNumber: string;
+  rollNumber: string;
+  enrollmentId: string;
 }
 
 export interface Parent extends User {
@@ -22,6 +27,13 @@ export interface Parent extends User {
 
 export interface Teacher extends User {
   role: 'teacher';
+  assignedClasses: number[];
+  assignedBatches: string[];
+  assignedSubjects: string[];
+}
+
+export interface Admin extends User {
+  role: 'admin';
 }
 
 // Academic types
@@ -83,4 +95,62 @@ export interface Message {
   content: string;
   date: string;
   read: boolean;
+}
+
+// New Types for Full LMS
+
+export interface Course {
+  id: string;
+  name: string; // e.g., "Class 10 CBSE", "JEE Main"
+  classLevel: number;
+  batch: string;
+  description: string;
+  duration: string;
+  fee: number;
+  type: 'classroom' | 'online';
+}
+
+export interface Enrollment {
+  id: string;
+  studentName: string;
+  phone: string;
+  email: string;
+  classLevel: number;
+  batch: string; // Selected batch
+  mode: 'online' | 'offline';
+  registerNumber?: string; // If existing student
+  status: 'pending' | 'confirmed' | 'rejected';
+  submittedDate: string;
+  paymentStatus: 'pending' | 'partial' | 'paid';
+  totalFee: number;
+  paidAmount: number;
+}
+
+export interface Payment {
+  id: string;
+  enrollmentId: string;
+  amount: number;
+  date: string;
+  status: 'paid' | 'pending';
+  method: 'online' | 'cash' | 'transfer';
+  transactionId?: string;
+  type: 'installment_1' | 'installment_2' | 'full_payment';
+}
+
+export interface Note {
+  id: string;
+  title: string;
+  description: string;
+  subjectId: string;
+  classLevel: number;
+  batch?: string; // Optional: batch-specific
+  category?: 'normal' | 'slow_learner'; // Optional: restricted to category
+  url: string;
+  date: string;
+  uploadedBy: string; // Teacher ID
+}
+
+export interface SystemSettings {
+  rankingEnabled: boolean;
+  rankingWeightage: Record<string, number>; // Subject ID -> Weightage check
 }

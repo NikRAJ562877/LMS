@@ -1,19 +1,18 @@
 import React from 'react';
 import { useData } from '../../context/DataContext';
-import { mockStudents, mockSubjects } from '../../data/mockData';
 import { Users, Calendar, FileText, TrendingUp } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts';
 
 export const OverviewTab = () => {
-  const { marks, assignments, attendance } = useData();
+  const { marks, assignments, attendance, students } = useData();
 
   // Calculate class-wise statistics
-  const classLevels = Array.from(new Set(mockStudents.map((s) => s.classLevel))).sort(
+  const classLevels = Array.from(new Set(students.map((s) => s.classLevel))).sort(
     (a, b) => a - b
   );
 
   const classStats = classLevels.map((classLevel) => {
-    const classStudents = mockStudents.filter((s) => s.classLevel === classLevel);
+    const classStudents = students.filter((s) => s.classLevel === classLevel);
     const studentIds = classStudents.map((s) => s.id);
 
     // Attendance
@@ -31,9 +30,9 @@ export const OverviewTab = () => {
     const avgPerformance =
       classMarks.length > 0
         ? Math.round(
-            classMarks.reduce((acc, m) => acc + (m.marks / m.maxMarks) * 100, 0) /
-              classMarks.length
-          )
+          classMarks.reduce((acc, m) => acc + (m.marks / m.maxMarks) * 100, 0) /
+          classMarks.length
+        )
         : 0;
 
     // Assignments
@@ -75,7 +74,7 @@ export const OverviewTab = () => {
     };
   });
 
-  const totalStudents = mockStudents.length;
+  const totalStudents = students.length;
   const totalAssignments = assignments.length;
   const pendingAssignments = assignments.filter((a) => a.status === 'pending').length;
   const totalClasses = classLevels.length;
@@ -190,13 +189,12 @@ export const OverviewTab = () => {
                     <div className="flex items-center gap-2">
                       <div className="flex-1 bg-gray-200 rounded-full h-2 max-w-[100px]">
                         <div
-                          className={`h-2 rounded-full ${
-                            stat.attendance >= 80
-                              ? 'bg-green-500'
-                              : stat.attendance >= 60
+                          className={`h-2 rounded-full ${stat.attendance >= 80
+                            ? 'bg-green-500'
+                            : stat.attendance >= 60
                               ? 'bg-yellow-500'
                               : 'bg-red-500'
-                          }`}
+                            }`}
                           style={{ width: `${stat.attendance}%` }}
                         />
                       </div>
@@ -205,13 +203,12 @@ export const OverviewTab = () => {
                   </td>
                   <td className="px-4 py-3">
                     <span
-                      className={`px-3 py-1 rounded-full text-sm ${
-                        stat.performance >= 80
-                          ? 'bg-green-100 text-green-800'
-                          : stat.performance >= 60
+                      className={`px-3 py-1 rounded-full text-sm ${stat.performance >= 80
+                        ? 'bg-green-100 text-green-800'
+                        : stat.performance >= 60
                           ? 'bg-yellow-100 text-yellow-800'
                           : 'bg-red-100 text-red-800'
-                      }`}
+                        }`}
                     >
                       {stat.performance}%
                     </span>

@@ -1,6 +1,23 @@
-import { Student, Parent, Teacher, Subject, Assignment, Mark, AttendanceRecord, Message } from '../types';
+import { Student, Parent, Teacher, Admin, Subject, Assignment, Mark, AttendanceRecord, Message, Course, Enrollment, Payment, Note, SystemSettings } from '../types';
+
+// System Settings
+export const mockSystemSettings: SystemSettings = {
+  rankingEnabled: true,
+  rankingWeightage: {
+    'sub6': 1.0, // Mathematics
+    'sub7': 1.0, // Science
+  }
+};
 
 // Users
+export const mockAdmin: Admin = {
+  id: 'admin1',
+  name: 'System Admin',
+  email: 'admin@school.com',
+  password: 'admin123',
+  role: 'admin'
+};
+
 export const mockStudents: Student[] = [
   {
     id: 's1',
@@ -9,6 +26,11 @@ export const mockStudents: Student[] = [
     password: 'student123',
     role: 'student',
     classLevel: 10,
+    batch: 'Batch-A',
+    category: 'normal',
+    registerNumber: 'REG2026001',
+    rollNumber: '1001',
+    enrollmentId: 'enr1',
     parentIds: ['p1']
   },
   {
@@ -18,6 +40,11 @@ export const mockStudents: Student[] = [
     password: 'student123',
     role: 'student',
     classLevel: 10,
+    batch: 'Batch-A',
+    category: 'slow_learner',
+    registerNumber: 'REG2026002',
+    rollNumber: '1002',
+    enrollmentId: 'enr2',
     parentIds: ['p2']
   },
   {
@@ -27,6 +54,11 @@ export const mockStudents: Student[] = [
     password: 'student123',
     role: 'student',
     classLevel: 9,
+    batch: 'Batch-B',
+    category: 'normal',
+    registerNumber: 'REG2026003',
+    rollNumber: '9001',
+    enrollmentId: 'enr3',
     parentIds: ['p3']
   },
   {
@@ -36,6 +68,11 @@ export const mockStudents: Student[] = [
     password: 'student123',
     role: 'student',
     classLevel: 11,
+    batch: 'JEE-1',
+    category: 'normal',
+    registerNumber: 'REG2026004',
+    rollNumber: '1101',
+    enrollmentId: 'enr4',
     parentIds: ['p4']
   },
   {
@@ -45,6 +82,11 @@ export const mockStudents: Student[] = [
     password: 'student123',
     role: 'student',
     classLevel: 10,
+    batch: 'Batch-A',
+    category: 'normal',
+    registerNumber: 'REG2026005',
+    rollNumber: '1003',
+    enrollmentId: 'enr5',
     parentIds: ['p1']
   },
 ];
@@ -90,9 +132,149 @@ export const mockTeachers: Teacher[] = [
     name: 'Dr. Jane Williams',
     email: 'teacher@school.com',
     password: 'teacher123',
-    role: 'teacher'
+    role: 'teacher',
+    assignedClasses: [9, 10, 11],
+    assignedBatches: ['Batch-A', 'Batch-B', 'JEE-1'],
+    assignedSubjects: ['Mathematics', 'Physics']
   },
 ];
+
+// Courses
+export const mockCourses: Course[] = [
+  {
+    id: 'c1',
+    name: 'Class 10 - Excellence Program',
+    classLevel: 10,
+    batch: 'Batch-A',
+    description: 'Comprehensive coaching for Class 10 board exams.',
+    duration: '1 Year',
+    fee: 25000,
+    type: 'classroom'
+  },
+  {
+    id: 'c2',
+    name: 'JEE Mains & Advanced',
+    classLevel: 11,
+    batch: 'JEE-1',
+    description: 'Intensive preparation for IIT-JEE engineering entrance.',
+    duration: '2 Years',
+    fee: 120000,
+    type: 'classroom'
+  },
+  {
+    id: 'c3',
+    name: 'NEET Medical Batch',
+    classLevel: 11,
+    batch: 'NEET-1',
+    description: 'Focused training for NEET medical entrance.',
+    duration: '2 Years',
+    fee: 125000,
+    type: 'classroom'
+  },
+  {
+    id: 'c4',
+    name: 'Foundation Course - Class 9',
+    classLevel: 9,
+    batch: 'Batch-B',
+    description: 'Building strong fundamentals for future competitive exams.',
+    duration: '1 Year',
+    fee: 20000,
+    type: 'classroom'
+  }
+];
+
+// Enrollments
+export const mockEnrollments: Enrollment[] = [
+  {
+    id: 'enr1',
+    studentName: 'Alice Johnson',
+    phone: '9876543210',
+    email: 'alice@student.com',
+    classLevel: 10,
+    batch: 'Batch-A',
+    mode: 'offline',
+    status: 'confirmed',
+    submittedDate: '2025-04-10',
+    paymentStatus: 'paid',
+    totalFee: 25000,
+    paidAmount: 25000
+  },
+  {
+    id: 'enr2',
+    studentName: 'Bob Smith',
+    phone: '9876543211',
+    email: 'bob@student.com',
+    classLevel: 10,
+    batch: 'Batch-A',
+    mode: 'offline',
+    status: 'confirmed',
+    submittedDate: '2025-04-12',
+    paymentStatus: 'partial',
+    totalFee: 25000,
+    paidAmount: 15000
+  },
+  {
+    id: 'enr_pending_1',
+    studentName: 'New Student X',
+    phone: '5555555555',
+    email: 'new@student.com',
+    classLevel: 9,
+    batch: 'Batch-B',
+    mode: 'online',
+    status: 'pending',
+    submittedDate: '2026-02-12',
+    paymentStatus: 'pending',
+    totalFee: 20000,
+    paidAmount: 0
+  }
+];
+
+// Payments
+export const mockPayments: Payment[] = [
+  {
+    id: 'pay1',
+    enrollmentId: 'enr1',
+    amount: 25000,
+    date: '2025-04-10',
+    status: 'paid',
+    method: 'cash',
+    type: 'full_payment'
+  },
+  {
+    id: 'pay2',
+    enrollmentId: 'enr2',
+    amount: 15000,
+    date: '2025-04-12',
+    status: 'paid',
+    method: 'transfer',
+    transactionId: 'TXN123456',
+    type: 'installment_1'
+  }
+];
+
+// Notes
+export const mockNotes: Note[] = [
+  {
+    id: 'n1',
+    title: 'Chapter 1: Real Numbers',
+    subjectId: 'sub6',
+    classLevel: 10,
+    fileUrl: 'mock://notes/real-numbers.pdf',
+    date: '2026-01-10',
+    uploadedBy: 't1'
+  },
+  {
+    id: 'n2',
+    title: 'Remedial Math - Basics',
+    subjectId: 'sub6',
+    classLevel: 10,
+    category: 'slow_learner',
+    fileUrl: 'mock://notes/math-basics.pdf',
+    date: '2026-01-12',
+    uploadedBy: 't1'
+  }
+];
+
 
 // Subjects
 export const mockSubjects: Subject[] = [
@@ -256,24 +438,24 @@ export const mockMarks: Mark[] = [
   { id: 'm3', studentId: 's1', subjectId: 'sub8', classLevel: 10, marks: 92, maxMarks: 100, examType: 'Mid-term', date: '2026-01-17', remarks: 'Excellent' },
   { id: 'm4', studentId: 's1', subjectId: 'sub9', classLevel: 10, marks: 88, maxMarks: 100, examType: 'Mid-term', date: '2026-01-18' },
   { id: 'm5', studentId: 's1', subjectId: 'sub10', classLevel: 10, marks: 75, maxMarks: 100, examType: 'Mid-term', date: '2026-01-19' },
-  
+
   // Student s2 (Bob - Class 10)
   { id: 'm6', studentId: 's2', subjectId: 'sub6', classLevel: 10, marks: 72, maxMarks: 100, examType: 'Mid-term', date: '2026-01-15' },
   { id: 'm7', studentId: 's2', subjectId: 'sub7', classLevel: 10, marks: 68, maxMarks: 100, examType: 'Mid-term', date: '2026-01-16' },
   { id: 'm8', studentId: 's2', subjectId: 'sub8', classLevel: 10, marks: 80, maxMarks: 100, examType: 'Mid-term', date: '2026-01-17' },
   { id: 'm9', studentId: 's2', subjectId: 'sub9', classLevel: 10, marks: 76, maxMarks: 100, examType: 'Mid-term', date: '2026-01-18' },
   { id: 'm10', studentId: 's2', subjectId: 'sub10', classLevel: 10, marks: 82, maxMarks: 100, examType: 'Mid-term', date: '2026-01-19' },
-  
+
   // Student s3 (Charlie - Class 9)
   { id: 'm11', studentId: 's3', subjectId: 'sub1', classLevel: 9, marks: 90, maxMarks: 100, examType: 'Mid-term', date: '2026-01-15' },
   { id: 'm12', studentId: 's3', subjectId: 'sub2', classLevel: 9, marks: 88, maxMarks: 100, examType: 'Mid-term', date: '2026-01-16' },
   { id: 'm13', studentId: 's3', subjectId: 'sub3', classLevel: 9, marks: 85, maxMarks: 100, examType: 'Mid-term', date: '2026-01-17' },
-  
+
   // Student s4 (Diana - Class 11)
   { id: 'm14', studentId: 's4', subjectId: 'sub11', classLevel: 11, marks: 95, maxMarks: 100, examType: 'Mid-term', date: '2026-01-15' },
   { id: 'm15', studentId: 's4', subjectId: 'sub12', classLevel: 11, marks: 92, maxMarks: 100, examType: 'Mid-term', date: '2026-01-16' },
   { id: 'm16', studentId: 's4', subjectId: 'sub13', classLevel: 11, marks: 89, maxMarks: 100, examType: 'Mid-term', date: '2026-01-17' },
-  
+
   // Student s5 (Emma - Class 10)
   { id: 'm17', studentId: 's5', subjectId: 'sub6', classLevel: 10, marks: 88, maxMarks: 100, examType: 'Mid-term', date: '2026-01-15' },
   { id: 'm18', studentId: 's5', subjectId: 'sub7', classLevel: 10, marks: 91, maxMarks: 100, examType: 'Mid-term', date: '2026-01-16' },
@@ -285,12 +467,12 @@ const generateAttendanceRecords = (): AttendanceRecord[] => {
   const records: AttendanceRecord[] = [];
   const students = mockStudents;
   const today = new Date('2026-01-29');
-  
+
   for (let i = 0; i < 30; i++) {
     const date = new Date(today);
     date.setDate(date.getDate() - i);
     const dateStr = date.toISOString().split('T')[0];
-    
+
     students.forEach((student) => {
       // Random attendance with 85% present rate
       const isPresent = Math.random() > 0.15;
@@ -303,7 +485,7 @@ const generateAttendanceRecords = (): AttendanceRecord[] => {
       });
     });
   }
-  
+
   return records;
 };
 

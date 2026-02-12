@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useData } from '../../context/DataContext';
-import { mockStudents, mockSubjects } from '../../data/mockData';
 import { BookOpen, Plus, Edit2, Save, X, Upload, FileText } from 'lucide-react';
 import { AssignmentFile } from '../../types';
 import { AssignmentFileViewer } from '../AssignmentFileViewer';
@@ -8,7 +7,7 @@ import { AssignmentFileViewer } from '../AssignmentFileViewer';
 type View = 'assignments' | 'marks';
 
 export const AcademicTab = () => {
-  const { assignments, marks, addAssignment, updateAssignment, addMark, updateMark } =
+  const { assignments, marks, addAssignment, updateAssignment, addMark, updateMark, students, subjects } =
     useData();
   const [view, setView] = useState<View>('assignments');
 
@@ -25,21 +24,19 @@ export const AcademicTab = () => {
           <div className="flex gap-2">
             <button
               onClick={() => setView('assignments')}
-              className={`px-4 py-2 rounded-md transition-colors ${
-                view === 'assignments'
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+              className={`px-4 py-2 rounded-md transition-colors ${view === 'assignments'
+                ? 'bg-purple-600 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
             >
               Assignments
             </button>
             <button
               onClick={() => setView('marks')}
-              className={`px-4 py-2 rounded-md transition-colors ${
-                view === 'marks'
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+              className={`px-4 py-2 rounded-md transition-colors ${view === 'marks'
+                ? 'bg-purple-600 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
             >
               Marks & Grades
             </button>
@@ -53,7 +50,7 @@ export const AcademicTab = () => {
 };
 
 const AssignmentsView = () => {
-  const { assignments, addAssignment, updateAssignment } = useData();
+  const { assignments, addAssignment, updateAssignment, students, subjects } = useData();
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [uploadedFiles, setUploadedFiles] = useState<AssignmentFile[]>([]);
@@ -67,7 +64,7 @@ const AssignmentsView = () => {
   });
 
   const classLevels = Array.from(
-    new Set(mockStudents.map((s) => s.classLevel))
+    new Set(students.map((s) => s.classLevel))
   ).sort((a, b) => a - b);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,7 +145,7 @@ const AssignmentsView = () => {
     }
   };
 
-  const availableSubjects = mockSubjects.filter(
+  const availableSubjects = subjects.filter(
     (s) => s.classLevel === formData.classLevel
   );
 
@@ -273,7 +270,7 @@ const AssignmentsView = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
                   <option value="">All students in class</option>
-                  {mockStudents
+                  {students
                     .filter((s) => s.classLevel === formData.classLevel)
                     .map((student) => (
                       <option key={student.id} value={student.id}>
@@ -371,11 +368,11 @@ const AssignmentsView = () => {
             </thead>
             <tbody className="divide-y">
               {assignments.map((assignment) => {
-                const subject = mockSubjects.find(
+                const subject = subjects.find(
                   (s) => s.id === assignment.subjectId
                 );
                 const student = assignment.studentId
-                  ? mockStudents.find((s) => s.id === assignment.studentId)
+                  ? students.find((s) => s.id === assignment.studentId)
                   : null;
 
                 return (
@@ -397,13 +394,12 @@ const AssignmentsView = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span
-                        className={`px-2 py-1 rounded-full text-xs ${
-                          assignment.status === 'pending'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : assignment.status === 'submitted'
+                        className={`px-2 py-1 rounded-full text-xs ${assignment.status === 'pending'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : assignment.status === 'submitted'
                             ? 'bg-blue-100 text-blue-800'
                             : 'bg-green-100 text-green-800'
-                        }`}
+                          }`}
                       >
                         {assignment.status}
                         {assignment.grade && ` - ${assignment.grade}%`}
@@ -439,7 +435,7 @@ const AssignmentsView = () => {
 };
 
 const MarksView = () => {
-  const { marks, addMark, updateMark } = useData();
+  const { marks, addMark, updateMark, students, subjects } = useData();
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [selectedClass, setSelectedClass] = useState<number>(10);
@@ -454,13 +450,13 @@ const MarksView = () => {
   });
 
   const classLevels = Array.from(
-    new Set(mockStudents.map((s) => s.classLevel))
+    new Set(students.map((s) => s.classLevel))
   ).sort((a, b) => a - b);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const student = mockStudents.find((s) => s.id === formData.studentId);
+    const student = students.find((s) => s.id === formData.studentId);
     if (!student) return;
 
     if (editingId) {
@@ -497,8 +493,8 @@ const MarksView = () => {
     setShowForm(false);
   };
 
-  const classStudents = mockStudents.filter((s) => s.classLevel === selectedClass);
-  const classSubjects = mockSubjects.filter((s) => s.classLevel === selectedClass);
+  const classStudents = students.filter((s) => s.classLevel === selectedClass);
+  const classSubjects = subjects.filter((s) => s.classLevel === selectedClass);
   const classMarks = marks.filter((m) => m.classLevel === selectedClass);
 
   return (
@@ -687,8 +683,8 @@ const MarksView = () => {
             </thead>
             <tbody className="divide-y">
               {classMarks.map((mark) => {
-                const student = mockStudents.find((s) => s.id === mark.studentId);
-                const subject = mockSubjects.find((s) => s.id === mark.subjectId);
+                const student = students.find((s) => s.id === mark.studentId);
+                const subject = subjects.find((s) => s.id === mark.subjectId);
                 const percentage = (mark.marks / mark.maxMarks) * 100;
 
                 return (
@@ -701,13 +697,12 @@ const MarksView = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span
-                        className={`px-3 py-1 rounded-full text-sm ${
-                          percentage >= 80
-                            ? 'bg-green-100 text-green-800'
-                            : percentage >= 60
+                        className={`px-3 py-1 rounded-full text-sm ${percentage >= 80
+                          ? 'bg-green-100 text-green-800'
+                          : percentage >= 60
                             ? 'bg-yellow-100 text-yellow-800'
                             : 'bg-red-100 text-red-800'
-                        }`}
+                          }`}
                       >
                         {Math.round(percentage)}%
                       </span>

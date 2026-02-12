@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useData } from '../../context/DataContext';
-import { mockStudents } from '../../data/mockData';
 import { Calendar, Check, X, Edit2, Save } from 'lucide-react';
 
 export const AttendanceTab = () => {
-  const { attendance, updateAttendance, addAttendance } = useData();
+  const { attendance, updateAttendance, addAttendance, students } = useData();
   const [selectedClass, setSelectedClass] = useState<number>(10);
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().toISOString().split('T')[0]
@@ -12,10 +11,12 @@ export const AttendanceTab = () => {
   const [editMode, setEditMode] = useState<{ [key: string]: boolean }>({});
 
   const classLevels = Array.from(
-    new Set(mockStudents.map((s) => s.classLevel))
+    new Set(students.map((s) => s.classLevel))
   ).sort((a, b) => a - b);
 
-  const classStudents = mockStudents.filter((s) => s.classLevel === selectedClass);
+
+  const classStudents = students.filter((s) => s.classLevel === selectedClass);
+
 
   // Get or initialize attendance for the selected date
   const getAttendanceForStudent = (studentId: string) => {
@@ -182,11 +183,10 @@ export const AttendanceTab = () => {
                       <td className="px-6 py-4">
                         {status ? (
                           <span
-                            className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm ${
-                              status === 'present'
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-red-100 text-red-800'
-                            }`}
+                            className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm ${status === 'present'
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-red-100 text-red-800'
+                              }`}
                           >
                             {status === 'present' ? (
                               <Check className="size-4" />
@@ -203,11 +203,10 @@ export const AttendanceTab = () => {
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => handleAttendanceToggle(student.id)}
-                            className={`px-3 py-1 rounded-md text-sm transition-colors ${
-                              status === 'present'
-                                ? 'bg-red-100 text-red-700 hover:bg-red-200'
-                                : 'bg-green-100 text-green-700 hover:bg-green-200'
-                            }`}
+                            className={`px-3 py-1 rounded-md text-sm transition-colors ${status === 'present'
+                              ? 'bg-red-100 text-red-700 hover:bg-red-200'
+                              : 'bg-green-100 text-green-700 hover:bg-green-200'
+                              }`}
                           >
                             Mark {status === 'present' ? 'Absent' : 'Present'}
                           </button>
@@ -251,11 +250,10 @@ export const AttendanceTab = () => {
                                     {history.records.map((record) => (
                                       <div
                                         key={record.id}
-                                        className={`px-3 py-2 rounded-md text-sm ${
-                                          record.status === 'present'
-                                            ? 'bg-green-100 text-green-800'
-                                            : 'bg-red-100 text-red-800'
-                                        }`}
+                                        className={`px-3 py-2 rounded-md text-sm ${record.status === 'present'
+                                          ? 'bg-green-100 text-green-800'
+                                          : 'bg-red-100 text-red-800'
+                                          }`}
                                       >
                                         <div>
                                           {new Date(

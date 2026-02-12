@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useData } from '../../context/DataContext';
-import { mockStudents, mockParents } from '../../data/mockData';
 import { Mail, Send, Plus } from 'lucide-react';
 
 export const MessagingTab = () => {
   const { user } = useAuth();
-  const { messages, addMessage } = useData();
+  const { messages, addMessage, students, parents } = useData();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     recipientType: 'student' as 'student' | 'parent',
@@ -40,7 +39,7 @@ export const MessagingTab = () => {
   };
 
   const recipients =
-    formData.recipientType === 'student' ? mockStudents : mockParents;
+    formData.recipientType === 'student' ? students : parents;
 
   // Group messages by recipient
   const sentMessages = messages.filter((m) => m.from === user?.id);
@@ -170,10 +169,10 @@ export const MessagingTab = () => {
                   new Date(b.date).getTime() - new Date(a.date).getTime()
               )
               .map((message) => {
-                const recipient = [...mockStudents, ...mockParents].find(
+                const recipient = [...students, ...parents].find(
                   (u) => u.id === message.to
                 );
-                const isStudent = mockStudents.some((s) => s.id === message.to);
+                const isStudent = students.some((s) => s.id === message.to);
 
                 return (
                   <div
@@ -188,11 +187,10 @@ export const MessagingTab = () => {
                               To: {recipient?.name}
                             </span>
                             <span
-                              className={`text-xs px-2 py-0.5 rounded-full ${
-                                isStudent
-                                  ? 'bg-blue-100 text-blue-800'
-                                  : 'bg-green-100 text-green-800'
-                              }`}
+                              className={`text-xs px-2 py-0.5 rounded-full ${isStudent
+                                ? 'bg-blue-100 text-blue-800'
+                                : 'bg-green-100 text-green-800'
+                                }`}
                             >
                               {isStudent ? 'Student' : 'Parent'}
                             </span>
@@ -201,7 +199,7 @@ export const MessagingTab = () => {
                             <div className="text-xs text-gray-500">
                               Class{' '}
                               {
-                                mockStudents.find((s) => s.id === message.to)
+                                students.find((s) => s.id === message.to)
                                   ?.classLevel
                               }
                             </div>
@@ -210,11 +208,10 @@ export const MessagingTab = () => {
                       </div>
                       <div className="flex items-center gap-2">
                         <span
-                          className={`text-xs px-2 py-0.5 rounded-full ${
-                            message.read
-                              ? 'bg-gray-100 text-gray-600'
-                              : 'bg-yellow-100 text-yellow-800'
-                          }`}
+                          className={`text-xs px-2 py-0.5 rounded-full ${message.read
+                            ? 'bg-gray-100 text-gray-600'
+                            : 'bg-yellow-100 text-yellow-800'
+                            }`}
                         >
                           {message.read ? 'Read' : 'Unread'}
                         </span>
