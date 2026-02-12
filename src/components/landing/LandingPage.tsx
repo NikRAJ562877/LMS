@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { 
-  GraduationCap, 
-  BookOpen, 
-  Users, 
-  Award, 
-  TrendingUp, 
-  Clock, 
+import {
+  GraduationCap,
+  BookOpen,
+  Users,
+  Award,
+  TrendingUp,
+  Clock,
   CheckCircle,
   Star,
   ArrowRight,
@@ -14,7 +14,8 @@ import {
   X,
   Mail,
   Phone,
-  MapPin
+  MapPin,
+  ChevronDown
 } from 'lucide-react';
 
 interface LandingPageProps {
@@ -23,11 +24,12 @@ interface LandingPageProps {
 
 export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isClassroomDropdownOpen, setIsClassroomDropdownOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <motion.nav 
+      <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className="fixed top-0 w-full bg-white/80 backdrop-blur-lg border-b border-gray-200 z-50"
@@ -41,6 +43,45 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-8">
+              <div
+                className="relative"
+              >
+                <button
+                  onClick={() => setIsClassroomDropdownOpen(!isClassroomDropdownOpen)}
+                  className="flex items-center gap-1 text-gray-700 hover:text-indigo-600 transition-colors"
+                >
+                  Classroom services
+                  <ChevronDown className={`size-4 transition-transform ${isClassroomDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isClassroomDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50"
+                  >
+                    {[
+                      'JEE',
+                      'NEET',
+                      'Class 1-4',
+                      'Class 5-6',
+                      'Class 7-8',
+                      'Class 9-10'
+                    ].map((item) => (
+                      <a
+                        key={item}
+                        href="#"
+                        onClick={() => setIsClassroomDropdownOpen(false)}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
+                      >
+                        {item}
+                      </a>
+                    ))}
+                  </motion.div>
+                )}
+              </div>
               <a href="#features" className="text-gray-700 hover:text-indigo-600 transition-colors">Features</a>
               <a href="#about" className="text-gray-700 hover:text-indigo-600 transition-colors">About</a>
               <a href="#testimonials" className="text-gray-700 hover:text-indigo-600 transition-colors">Testimonials</a>
@@ -103,11 +144,11 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
               >
                 🎓 Modern Learning Management System
               </motion.div>
-              
+
               <h1 className="text-3xl sm:text-4xl md:text-6xl mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                 Empowering Education Through Technology
               </h1>
-              
+
               <p className="text-xl text-gray-600 mb-8">
                 A comprehensive platform connecting students, parents, and teachers for seamless academic management and superior learning outcomes.
               </p>
@@ -122,7 +163,7 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
                   Get Started
                   <ArrowRight className="size-5" />
                 </motion.button>
-                
+
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -155,10 +196,10 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
               className="relative"
             >
               <motion.div
-                animate={{ 
+                animate={{
                   y: [0, -20, 0],
                 }}
-                transition={{ 
+                transition={{
                   duration: 4,
                   repeat: Infinity,
                   ease: "easeInOut"
@@ -175,7 +216,7 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
                       <div className="text-xl">24 Pending</div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl">
                     <div className="bg-green-500 p-3 rounded-lg">
                       <TrendingUp className="size-6 text-white" />
@@ -185,7 +226,7 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
                       <div className="text-xl">92% Average</div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
                     <div className="bg-purple-500 p-3 rounded-lg">
                       <Award className="size-6 text-white" />
@@ -200,10 +241,10 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
 
               {/* Floating Elements */}
               <motion.div
-                animate={{ 
+                animate={{
                   rotate: 360,
                 }}
-                transition={{ 
+                transition={{
                   duration: 20,
                   repeat: Infinity,
                   ease: "linear"
@@ -265,7 +306,7 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
               <p className="text-xl text-gray-600 mb-8">
                 We're transforming education by bridging the gap between students, parents, and teachers through innovative technology.
               </p>
-              
+
               <div className="space-y-4">
                 {benefits.map((benefit, index) => (
                   <motion.div
@@ -364,7 +405,7 @@ export const LandingPage = ({ onGetStarted }: LandingPageProps) => {
               <p className="text-xl text-indigo-100 mb-8">
                 Join thousands of students and teachers who are already using EduTrack to achieve better learning outcomes.
               </p>
-              
+
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
