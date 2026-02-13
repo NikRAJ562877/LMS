@@ -3,16 +3,15 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { DataProvider } from './context/DataContext';
 import { Login } from './components/Login';
-import { Header } from './components/Header';
 import { StudentDashboard } from './components/student/StudentDashboard';
 import { TeacherDashboard } from './components/teacher/TeacherDashboard';
 import { AdminDashboard } from './components/admin/AdminDashboard';
 import { LandingPage } from './components/landing/LandingPage';
-import { BottomNav } from './components/ui/bottom-nav';
 
 // Placeholder components for new routes
-const EnrollmentPage = () => <div className="pt-20 text-center">Enrollment Page (Coming Soon)</div>;
 const ResultPage = () => <div className="pt-20 text-center">Result Page (Coming Soon)</div>;
+
+import { EnrollmentForm } from './components/student/EnrollmentForm';
 
 
 const PrivateRoute = ({ children, allowedRoles }: { children: React.ReactNode, allowedRoles: string[] }) => {
@@ -45,18 +44,15 @@ const DashboardRedirect = () => {
 
 const AppContent = () => {
   const { user } = useAuth();
-  // Using location check for displaying Header/BottomNav conditionally if needed
-  // For now, simple logic: show header if user is logged in
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {user && <Header />}
       <main>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={!user ? <LandingPage /> : <Navigate to="/dashboard" replace />} />
           <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" replace />} />
-          <Route path="/enroll" element={<EnrollmentPage />} />
+          <Route path="/enroll" element={<EnrollmentForm />} />
           <Route path="/results" element={<ResultPage />} />
 
           {/* Protected Routes */}
@@ -69,7 +65,7 @@ const AppContent = () => {
           } />
 
           <Route path="/teacher/*" element={
-            <PrivateRoute allowedRoles={['teacher', 'admin']}> {/* Admin can view teacher view potentially, but strictly strictly teacher role here */}
+            <PrivateRoute allowedRoles={['teacher', 'admin']}>
               <TeacherDashboard />
             </PrivateRoute>
           } />
@@ -84,7 +80,6 @@ const AppContent = () => {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      {user && <BottomNav />}
     </div>
   );
 };

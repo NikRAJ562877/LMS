@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useData } from '../../context/DataContext';
-import { LayoutDashboard, BookOpen, Calendar, FileText, User, CreditCard, Mail } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { LayoutDashboard, BookOpen, Calendar, FileText, User, CreditCard, Mail, LogOut } from 'lucide-react';
 
 // Components
 import { StudentOverview, StudentAcademics, StudentSchedule, StudentResources } from './';
@@ -11,9 +12,15 @@ import { ParentCommunication } from '../parent/ParentCommunication';
 type Tab = 'overview' | 'academics' | 'schedule' | 'resources' | 'profile' | 'fees' | 'communication';
 
 export const StudentDashboard = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { students } = useData();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>('overview');
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   // For reusing ParentFees, we need to pass an array of students.
   // Since this is the student dashboard, we pass the current student in an array.
@@ -73,21 +80,38 @@ export const StudentDashboard = () => {
               );
             })}
           </nav>
+
+          <div className="p-4 border-t border-gray-200">
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-500 hover:bg-red-50 transition-colors"
+            >
+              <LogOut className="size-5" />
+              Logout
+            </button>
+          </div>
         </aside>
 
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto p-4 md:p-8">
           <div className="max-w-6xl mx-auto">
-            <div className="mb-6 md:hidden">
+            <div className="mb-6 md:hidden flex gap-2">
               <select
                 value={activeTab}
                 onChange={(e) => setActiveTab(e.target.value as Tab)}
-                className="w-full p-2 border rounded-md"
+                className="flex-1 p-2 border rounded-md"
               >
                 {tabs.map(tab => (
                   <option key={tab.id} value={tab.id}>{tab.label}</option>
                 ))}
               </select>
+              <button
+                onClick={handleLogout}
+                className="px-3 py-2 text-red-500 border border-red-200 rounded-md hover:bg-red-50 transition-colors"
+                title="Logout"
+              >
+                <LogOut className="size-5" />
+              </button>
             </div>
 
             {activeTab === 'overview' && <StudentOverview />}

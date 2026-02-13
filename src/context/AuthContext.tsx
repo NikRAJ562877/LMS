@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { User, Student, Parent, Teacher } from '../types';
-import { mockStudents, mockParents, mockTeachers } from '../data/mockData';
+import { mockStudents, mockParents, mockTeachers, mockAdmin } from '../data/mockData';
 
 interface AuthContextType {
   user: User | null;
@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const login = (email: string, password: string): boolean => {
-    const allUsers: User[] = [...mockStudents, ...mockParents, ...mockTeachers];
+    const allUsers: User[] = [...mockStudents, ...mockParents, ...mockTeachers, mockAdmin];
     const foundUser = allUsers.find(
       (u) => u.email === email && u.password === password
     );

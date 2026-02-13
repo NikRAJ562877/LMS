@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { GraduationCap, AlertCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { GraduationCap, AlertCircle, ArrowLeft } from 'lucide-react';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,8 +27,8 @@ export const Login = () => {
 
   const sampleCredentials = [
     { role: 'Student', email: 'alice@student.com', password: 'student123' },
-    { role: 'Parent', email: 'john@parent.com', password: 'parent123' },
     { role: 'Teacher', email: 'teacher@school.com', password: 'teacher123' },
+    { role: 'Admin', email: 'admin@school.com', password: 'admin123' },
   ];
 
   const quickLogin = (email: string, password: string) => {
@@ -36,88 +38,119 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl overflow-hidden">
-        <div className="grid md:grid-cols-2 gap-0">
-          {/* Left Side - Login Form */}
-          <div className="p-6 md:p-8">
-            <div className="flex items-center gap-2 mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
+      {/* Navbar */}
+      <nav className="bg-white/80 backdrop-blur-lg border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
               <GraduationCap className="size-8 text-indigo-600" />
-              <h1>Vidyastara Tuitions</h1>
+              <span className="text-xl font-semibold">Vidyastara Tuitions</span>
             </div>
-            
-            <h2 className="mb-6">Login to Your Account</h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="email" className="block text-sm mb-1">
-                  Email Address
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  placeholder="Enter your email"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="password" className="block text-sm mb-1">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  placeholder="Enter your password"
-                />
-              </div>
-
-              {error && (
-                <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 p-3 rounded-md">
-                  <AlertCircle className="size-4" />
-                  <span>{error}</span>
-                </div>
-              )}
-
+            <div className="flex items-center gap-6">
               <button
-                type="submit"
-                className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition-colors"
+                onClick={() => navigate('/')}
+                className="hidden sm:flex items-center gap-1 text-gray-700 hover:text-indigo-600 transition-colors text-sm"
               >
-                Login
+                <ArrowLeft className="size-4" />
+                Back to Home
               </button>
-            </form>
+              <button
+                onClick={() => navigate('/enroll')}
+                className="px-4 py-2 text-sm text-indigo-600 border border-indigo-200 rounded-full hover:bg-indigo-50 transition-colors"
+              >
+                Enroll Now
+              </button>
+            </div>
           </div>
+        </div>
+      </nav>
 
-          {/* Right Side - Sample Credentials */}
-          <div className="bg-indigo-600 text-white p-6 md:p-8">
-            <h3 className="mb-4">Quick Login</h3>
-            <p className="text-indigo-100 text-sm mb-6">
-              Click any credential below to auto-fill and login
-            </p>
+      {/* Login Content */}
+      <div className="flex-1 flex items-center justify-center p-4">
+        <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl overflow-hidden">
+          <div className="grid md:grid-cols-2 gap-0">
+            {/* Left Side - Login Form */}
+            <div className="p-6 md:p-8">
+              <div className="flex items-center gap-2 mb-6">
+                <GraduationCap className="size-8 text-indigo-600" />
+                <h1>Vidyastara Tuitions</h1>
+              </div>
 
-            <div className="space-y-3">
-              {sampleCredentials.map((cred, index) => (
-                <div
-                  key={index}
-                  onClick={() => quickLogin(cred.email, cred.password)}
-                  className="bg-white/10 backdrop-blur-sm p-4 rounded-md cursor-pointer hover:bg-white/20 transition-colors"
-                >
-                  <div className="text-indigo-200 text-sm mb-1">{cred.role}</div>
-                  <div className="text-sm">Email: {cred.email}</div>
-                  <div className="text-sm">Password: {cred.password}</div>
+              <h2 className="mb-6">Login to Your Account</h2>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="email" className="block text-sm mb-1">
+                    Email Address
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Enter your email"
+                  />
                 </div>
-              ))}
+
+                <div>
+                  <label htmlFor="password" className="block text-sm mb-1">
+                    Password
+                  </label>
+                  <input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Enter your password"
+                  />
+                </div>
+
+                {error && (
+                  <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 p-3 rounded-md">
+                    <AlertCircle className="size-4" />
+                    <span>{error}</span>
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition-colors"
+                >
+                  Login
+                </button>
+              </form>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-indigo-500">
-              <p className="text-sm text-indigo-100">
-                This is a demo LMS system using mock data. No real student information is stored.
+            {/* Right Side - Sample Credentials */}
+            <div className="bg-indigo-600 text-white p-6 md:p-8">
+              <h3 className="mb-4">Quick Login</h3>
+              <p className="text-indigo-100 text-sm mb-6">
+                Click any credential below to auto-fill and login
               </p>
+
+              <div className="space-y-3">
+                {sampleCredentials.map((cred, index) => (
+                  <div
+                    key={index}
+                    onClick={() => quickLogin(cred.email, cred.password)}
+                    className="bg-white/10 backdrop-blur-sm p-4 rounded-md cursor-pointer hover:bg-white/20 transition-colors"
+                  >
+                    <div className="text-indigo-200 text-sm mb-1">{cred.role}</div>
+                    <div className="text-sm">Email: {cred.email}</div>
+                    <div className="text-sm">Password: {cred.password}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-indigo-500">
+                <p className="text-sm text-indigo-100">
+                  This is a demo LMS system using mock data. No real student information is stored.
+                </p>
+              </div>
             </div>
           </div>
         </div>

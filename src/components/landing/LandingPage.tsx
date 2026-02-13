@@ -81,7 +81,7 @@ export const LandingPage = () => {
                         key={item}
                         onClick={() => {
                           setIsClassroomDropdownOpen(false);
-                          navigate('/enroll');
+                          navigate('/enroll', { state: { course: item } });
                         }}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
                       >

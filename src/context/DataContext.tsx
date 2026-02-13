@@ -50,6 +50,10 @@ interface DataContextType {
 
   // Users (Simple add/update for admin)
   addStudent: (student: Student) => void;
+  addTeacher: (teacher: Teacher) => void;
+
+  // System Settings
+  updateSystemSettings: (settings: Partial<SystemSettings>) => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -136,6 +140,14 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     setStudents(prev => [...prev, student]);
   };
 
+  const addTeacher = (teacher: Teacher) => {
+    setTeachers(prev => [...prev, teacher]);
+  };
+
+  const updateSystemSettings = (settings: Partial<SystemSettings>) => {
+    setSystemSettings(prev => ({ ...prev, ...settings }));
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -166,7 +178,9 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         updateEnrollmentStatus,
         addPayment,
         addNote,
-        addStudent
+        addStudent,
+        addTeacher,
+        updateSystemSettings
       }}
     >
       {children}

@@ -119,11 +119,26 @@ export interface Enrollment {
   batch: string; // Selected batch
   mode: 'online' | 'offline';
   registerNumber?: string; // If existing student
+  rollNumber?: string; // Assigned during enrollment
+  category?: 'normal' | 'slow_learner';
+  address?: string;
   status: 'pending' | 'confirmed' | 'rejected';
   submittedDate: string;
   paymentStatus: 'pending' | 'partial' | 'paid';
   totalFee: number;
   paidAmount: number;
+}
+
+export interface Note {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  classLevel: number;
+  batch: string; // 'all' or specific batch
+  uploadedDate: string;
+  uploadedBy: string; // teacher/admin name
+  subjectId?: string; // Optional linkage
 }
 
 export interface Payment {
@@ -137,18 +152,7 @@ export interface Payment {
   type: 'installment_1' | 'installment_2' | 'full_payment';
 }
 
-export interface Note {
-  id: string;
-  title: string;
-  description: string;
-  subjectId: string;
-  classLevel: number;
-  batch?: string; // Optional: batch-specific
-  category?: 'normal' | 'slow_learner'; // Optional: restricted to category
-  url: string;
-  date: string;
-  uploadedBy: string; // Teacher ID
-}
+// Duplicate Note interface removed
 
 export interface SystemSettings {
   rankingEnabled: boolean;

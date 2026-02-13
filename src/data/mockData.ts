@@ -257,21 +257,25 @@ export const mockNotes: Note[] = [
   {
     id: 'n1',
     title: 'Chapter 1: Real Numbers',
+    description: 'Introduction to real numbers, Euclid division lemma, and fundamental theorem of arithmetic.',
     subjectId: 'sub6',
     classLevel: 10,
-    fileUrl: 'mock://notes/real-numbers.pdf',
-    date: '2026-01-10',
-    uploadedBy: 't1'
+    batch: 'all',
+    url: 'mock://notes/real-numbers.pdf',
+    uploadedDate: '2026-01-10',
+    uploadedBy: 'Dr. Jane Williams'
   },
   {
     id: 'n2',
     title: 'Remedial Math - Basics',
+    description: 'Basic concepts revisited for clearer understanding.',
     subjectId: 'sub6',
     classLevel: 10,
-    category: 'slow_learner',
-    fileUrl: 'mock://notes/math-basics.pdf',
-    date: '2026-01-12',
-    uploadedBy: 't1'
+    batch: 'all',
+    // category: 'slow_learner', // Note type doesn't have category yet, but maybe it should?
+    url: 'mock://notes/math-basics.pdf',
+    uploadedDate: '2026-01-12',
+    uploadedBy: 'Dr. Jane Williams'
   }
 ];
 
